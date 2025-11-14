@@ -22,9 +22,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.PlayArrow
@@ -58,6 +61,7 @@ import com.droidcon.soundbox.ui.GradientTopAppBar
 import com.droidcon.soundbox.ui.theme.SoundBoxTheme
 import java.util.concurrent.TimeUnit
 import androidx.core.net.toUri
+import com.droidcon.soundbox.BuildConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -106,18 +110,24 @@ fun SoundPlaybackScreen(sound: Sound, onBack: () -> Unit) {
         topBar = {
             GradientTopAppBar(
                 title = { Text(sound.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                navigationIcon = {}
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
             )
         }
-    ) { 
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .padding(
                     horizontal = dimensionResource(id = R.dimen.padding_large),
                     vertical = dimensionResource(id = R.dimen.spacing_xlarge)
-                ),
+                ).verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
@@ -195,14 +205,16 @@ fun SoundPlaybackScreen(sound: Sound, onBack: () -> Unit) {
                     )
                 }
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacing_medium)))
-                Button(onClick = {
-                    checkAndSetRingtone(context, sound, settingsLauncher)
-                }) {
-                    Icon(Icons.Default.Phone, contentDescription = "Set as Ringtone")
-                    Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_small)))
-                    Text(text = "Set as Ringtone")
-                }
 
+                if (BuildConfig.FLAVOR_NAME == "mobile") {
+                    Button(onClick = {
+                        checkAndSetRingtone(context, sound, settingsLauncher)
+                    }) {
+                        Icon(Icons.Default.Phone, contentDescription = "Set as Ringtone")
+                        Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.spacing_small)))
+                        Text(text = "Set as Ringtone")
+                    }
+                }
             }
         }
     }
@@ -247,10 +259,3 @@ private fun setRingtone(context: Context, sound: Sound) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun SoundPlaybackScreenPreview() {
-    SoundBoxTheme {
-        // SoundPlaybackScreen(sound = Sound("Preview", Icons.Default.MusicNote, R.raw.drum_roll), onBack = {})
-    }
-}
