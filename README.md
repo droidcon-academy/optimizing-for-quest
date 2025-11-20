@@ -7,7 +7,7 @@ This repository contains the complete code and resources for the Medium tutorial
 - 🧑‍💻 **Target audience:** Android/Kotlin developers  
 - 🎯 **Goal:** Rapidly port any 2D Android app to the Meta Quest VR platform using product flavors, Quest UI best practices, and native Android APIs.
 
-[Read the full tutorial on Medium &rarr;](#)  
+[Read the full tutorial on Medium &rarr;](https://proandroiddev.com/port-your-android-app-to-meta-quest-a-step-by-step-guide-a3a8b84cc2ce)  
 
 ---
 
