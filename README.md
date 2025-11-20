@@ -1,7 +1,5 @@
 # Port Your Android App to Meta Quest in Under 30 Minutes
 
-![Creative visualization: Android app to Meta Quest VR](helper-files/androidtoVR.png)
-
 ## Overview
 
 This repository contains the complete code and resources for the Medium tutorial: **"Port Your Android App to Meta Quest in Under 30 Minutes"**.
